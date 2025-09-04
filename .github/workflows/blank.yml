@@ -22,4 +22,4 @@ jobs:
             --count 1 \
             --instance-type t2.micro \
             --key-name my-key \                          # Replace with your key pair
-            --security-groups default                         # Or use a security group ID
+            --security-groups default \                       # Or use a security group ID
