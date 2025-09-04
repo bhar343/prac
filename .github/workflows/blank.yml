@@ -22,6 +22,6 @@ jobs:
             --image-id ami-0861f4e788f5069dd \
             --count 1 \
             --instance-type t2.micro \
-            --key-name my-key-pair \
+            --key-name key \
             --security-group-ids sg-07d5b72f49350b93f \
             --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GitHubLaunched}]'
