@@ -1,0 +1,27 @@
+name: Mixed Jobs Example
+
+on: [push]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Setup"
+
+  test1:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running Test 1"
+
+  test2:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running Test 2"
+
+  deploy:
+    needs: [test1, test2]  # Waits for both to finish
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying"
