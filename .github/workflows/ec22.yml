@@ -17,17 +17,18 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
+- name: Launch EC2 Instance
+  run: |
+    INSTANCE_ID=$(aws ec2 run-instances \
+      --image-id ami-0861f4e788f5069dd \
+      --count 1 \
+      --instance-type t2.micro \
+      --key-name key \
+      --security-groups sg-080df876693158cfd \
+      --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GitHubActionEC2}]' \
+      --query 'Instances[0].InstanceId' \
+      --output text)
 
-    - name: Launch EC2 Instance
-      run: |
-        INSTANCE_ID=$(aws ec2 run-instances \
-          --image-id ami-0861f4e788f5069dd \            # replace with valid AMI
-          --count 1 \
-          --instance-type t2.micro \
-          --key-name key \                      # replace with your key pair name
-          --security-groups sg-080df876693158cfd \         # or use --security-group-ids sg-xxxx
-          --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GitHubActionEC2}]' \
-          --query 'Instances[0].InstanceId' \
-          --output text)
+    echo "Launched EC2 instance: $INSTANCE_ID"
 
-        echo "Launched EC2 Instance ID: $INSTANCE_ID"
+
