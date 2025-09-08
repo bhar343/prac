@@ -25,7 +25,7 @@ jobs:
           --count 1 \
           --instance-type t2.micro \
           --key-name key \                      # replace with your key pair name
-          --security-groups sg-080df876693158cfd \         # or use --security-group-ids sg-xxxx
+          --security-groups sg-0a335bb75232d9d05 \         # or use --security-group-ids sg-xxxx
           --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GitHubActionEC2}]' \
           --query 'Instances[0].InstanceId' \
           --output text)
