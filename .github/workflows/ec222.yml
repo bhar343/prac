@@ -1,0 +1,32 @@
+name: Launch EC2 Instance
+
+on:
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  launch-ec2:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Launch EC2 Instance
+      run: |
+        INSTANCE_ID=$(aws ec2 run-instances \
+          --image-id ami-0861f4e788f5069dd \   # Use a valid AMI ID for your region
+          --count 1 \
+          --instance-type t2.micro \
+          --key-name key \            # Replace with your actual key pair name
+          --security-groups sg-0318b7c5b7a3fe463  \ # Replace with your security group
+          --query 'Instances[0].InstanceId' \
+          --output text)
+
+        echo "Launched EC2 Instance ID: $INSTANCE_ID"
